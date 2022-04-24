@@ -42,16 +42,14 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new_game", (data) => {
-    const { palette, current, roomId } = data;
-
     socket.broadcast
-      .to(roomId.toString())
-      .emit("current_state", { palette, current });
+      .to(data.roomId.toString())
+      .emit("current_state", data);
 
-    socket.broadcast.to(roomId.toString()).emit("reset", "");
+    socket.broadcast.to(data.roomId.toString()).emit("reset", "");
 
     console.log(
-      `Palette: ${palette} in Room ID: ${roomId}. Current Player is ${current}`
+      `Palette: ${data.palette} in Room ID: ${data.roomId}. Current Player is ${data.current}`
     );
   });
 
